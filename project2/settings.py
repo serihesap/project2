@@ -120,7 +120,7 @@ SITE_ID =1
 
 CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/'
 
-CKEDITOR_UPLOAD_PATH = 'uploads/images/'
+CKEDITOR_UPLOAD_PATH = '/uploads/images/' # Bu Sayede statik bir yol belirledik
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 
 CKEDITOR_CONFIGS = {
