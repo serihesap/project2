@@ -1,0 +1,11 @@
+{% if kategori_listesi %}
+    <ul>
+        {% for category in kategori_listesi %}
+            <li>
+                <a href="/product/{{category.id}}/">{{category.title}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p> Kategori bulunamadı</p>
+{% endif %}
