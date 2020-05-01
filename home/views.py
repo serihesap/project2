@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from product.models import Product
 from .models import Setting, Contact, ContactForm
 
 setting = Setting.objects.get(pk=1)
@@ -9,7 +10,11 @@ setting = Setting.objects.get(pk=1)
 def index(request):
     # metin = 'Ali'
     # return HttpResponse('Merhaba %s' % metin)
-    context = {'setting':setting,'page':'home'}
+    sliderdata=Product.objects.all()[:4]
+    context = {'setting':setting,
+               'page':'home',
+               'sliderdata':sliderdata
+               }
     return render(request, 'index.html', context)
 
 def hakkimizda(request):

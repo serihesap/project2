@@ -1,11 +1,13 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render
 
-from product.models import Category
+from home.models import Setting
+from product.models import Category, Product
+
 
 def index(request):
-    metin = 'Merhaba Product Sayfası'
-    context = {'metin':metin}
+    setting = Setting.objects.get(pk=1)
+    context = {'setting':setting}
     return render(request, 'index.html', context)
 
 def kategoriler(request):

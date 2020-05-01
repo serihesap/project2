@@ -24,7 +24,7 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('product/', include('product.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls)
 ]
 
 if settings.DEBUG: # Django admin panelde resimleri gösterebilmek için
