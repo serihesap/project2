@@ -1,7 +1,7 @@
 from ckeditor.fields import RichTextField
 from django import forms
 from django.db import models
-from django.forms import TextInput
+from django.forms import TextInput, Textarea
 from django.utils.safestring import mark_safe
 
 class Setting(models.Model):
@@ -83,7 +83,8 @@ class ContactForm(forms.ModelForm):
             'name'     : TextInput(attrs={'class':'input','placeholder':'Ad & Soyad'}),
             'subject'  : TextInput(attrs={'class':'input','placeholder':'Konu'}),
             'email'    : TextInput(attrs={'class':'input','placeholder':'E-Posta adresi'}),
-            'message'  : TextInput(attrs={'class':'input','placeholder':'Mesajınız'}),
+            'message'  : Textarea(attrs={'class':'form-control','placeholder':'Mesajınız','rows':5, 'cols':15}),
+                #TextInput(attrs={'class':'form-control','placeholder':'Mesajınız','rows':4, 'cols':15}),
         }
         labels = {
             'name'     : 'Ad & Soyad',
