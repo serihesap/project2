@@ -7,6 +7,8 @@ from .models import Category, Product, Images
 class CategoryYonet(admin.ModelAdmin):
     list_display = ('parent','title','image_tag','slug')
     list_filter = ('slug','create_at')
+    prepopulated_fields = {'slug' : ('title',)}  # slug alanını make ve model alanından oluşturur.
+
 
 
 class ProductImageInline(admin.TabularInline):
@@ -17,6 +19,7 @@ class ProductImageInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin) :
     list_display = ('title','category','price','amount','image_tag','status')
     list_filter = ('status','category')
+    prepopulated_fields = {'slug' : ('title',)}  # slug alanını make ve model alanından oluşturur.
 
     inlines = [ProductImageInline]
 

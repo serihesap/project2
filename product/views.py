@@ -30,3 +30,10 @@ def detay(request, category_id):
 def sablon2(request, gelenid):
     return HttpResponse('Bu ŞABLON iki %s' % gelenid)
 
+def slayt(request, slug):
+    urun = Product.objects.get(slug=slug)
+    context={
+        'urun':urun
+    }
+    return render(request,'tekurun.html',context)
+

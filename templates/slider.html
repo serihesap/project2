@@ -10,10 +10,10 @@
 					{% if sliderdata %}
 						{% for rs in sliderdata %}
 						<div class="banner banner-1">
-							<img src="{{ rs.image.url }}" width="676px" height="530px" alt="">
+							<img src="{{ rs.image.url }}" width="676px" height="530px" alt="{{ rs.image }}">
 							<div class="banner-caption">
 								<h1 class="primary-color">{{ rs.title }}<br><span class="primary-color font-weak" style="font-size:30px !important">{{ rs.description }}</span></h1>
-								<a href="/product/{{rs.id}}" class="primary-btn">Şimdi Al</a>
+								<a href="/product/{{rs.slug}}" class="primary-btn">Şimdi Al</a>
 							</div>
 						</div>
 						{% endfor %}
