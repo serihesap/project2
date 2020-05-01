@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from home.models import Setting
+from home.models import Setting, Contact
+
 
 class SettingAdmin(admin.ModelAdmin):
     list_display = ('title','company','logo_show',)
@@ -27,8 +28,15 @@ class SettingAdmin(admin.ModelAdmin):
         if self.model.objects.count() >= MAX_OBJECTS :
             return False
         return super().has_add_permission(request)
+
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'subject', 'message','note','status')
+    list_filter = ('status',)
+
             
 
 
-admin.site.register(Setting,SettingAdmin)
+admin.site.register(Setting, SettingAdmin)
+admin.site.register(Contact, ContactAdmin)
 

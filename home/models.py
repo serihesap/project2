@@ -1,5 +1,7 @@
 from ckeditor.fields import RichTextField
+from django import forms
 from django.db import models
+from django.forms import TextInput
 from django.utils.safestring import mark_safe
 
 class Setting(models.Model):
@@ -46,3 +48,48 @@ class Setting(models.Model):
             return mark_safe('<img src="{}" height="48px"/>'.format(self.logo.url))
         return self.logo
     logo_show.short_description = 'Logo'
+
+
+class Contact(models.Model):
+    STATUS = (
+        ('New', 'New'),
+        ('Read', 'Read'),
+        ('Closed', 'Closed')
+    )
+    name           = models.CharField(blank=True, max_length=20)
+    email          = models.EmailField(blank=True)
+    subject        = models.CharField(blank=True, max_length=50)
+    message        = models.CharField(blank=True, max_length=255)
+    status         = models.CharField(max_length=10, choices=STATUS, default='New')
+    ip             = models.CharField(blank=True, max_length=20)
+    note           = models.CharField(blank=True, max_length=100)
+    create_at      = models.DateTimeField(auto_now_add=True)
+    update_at      = models.DateTimeField(auto_now=True)
+
+    def __init__(self, *args, **kwargs) :
+        super().__init__(*args, **kwargs)
+        self.cleaned_data = None
+
+    def __str__(self):
+        return self.name
+
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name','subject','email','message']
+        widgets={
+            'name'     : TextInput(attrs={'class':'input','placeholder':'Ad & Soyad'}),
+            'subject'  : TextInput(attrs={'class':'input','placeholder':'Konu'}),
+            'email'    : TextInput(attrs={'class':'input','placeholder':'E-Posta adresi'}),
+            'message'  : TextInput(attrs={'class':'input','placeholder':'Mesajınız'}),
+        }
+        labels = {
+            'name'     : 'Ad & Soyad',
+            'subject'  : 'Konu',
+            'email'    : 'E-Posta',
+            'message'  : 'Mesajınız'
+        }
+
+
