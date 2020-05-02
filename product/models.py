@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.safestring import mark_safe
 from mptt.fields import TreeForeignKey
@@ -60,7 +61,7 @@ class Product(models.Model):
     image           = models.ImageField(blank=True, upload_to='images/')
     price           = models.FloatField()
     amount          = models.IntegerField(default=0)
-    detail          = models.TextField()
+    detail          = RichTextField(blank=True)
     slug            = models.SlugField(blank=True, max_length=150)
     status          = models.CharField(max_length=10, choices=STATUS)
     create_at       = models.DateTimeField(auto_now_add=True)
