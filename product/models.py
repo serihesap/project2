@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from mptt.fields import TreeForeignKey
+from mptt.models import MPTTModel
 
 
-class Category(models.Model) :
+class Category(MPTTModel) :
     STATUS = (
         ('True', 'Evet'),
         ('False', 'Hayır'),
@@ -12,17 +14,20 @@ class Category(models.Model) :
     description = models.CharField(blank=True, max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
     status = models.CharField(max_length=10, choices=STATUS)
-    slug = models.SlugField(blank=True,unique=True, max_length=150)
-    parent = models.ForeignKey('self', blank=True, null=True,
+    slug = models.SlugField(blank=True, max_length=150)
+    parent = TreeForeignKey('self', blank=True, null=True,
                                related_name='children', on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
     class Meta :
         # enforcing that there can not be two categories under a parent with same slug
-        # Aynı slug alanına sahip 2 kategori bir ebeveyn kategori altında olamamay zorlar.
+        # Aynı slug alanına sahip 2 kategori bir ebeveyn kategori altında olamamaya zorlar.
         unique_together = ('slug', 'parent',)
         verbose_name_plural = 'categories'
+
+    class MPTTMeta:
+        order_insertion_by = ['title']
 
     def __str__(self) :
         full_path = [self.title]
@@ -32,6 +37,7 @@ class Category(models.Model) :
             full_path.append(k.title)
             k = k.parent
         return ' -> '.join(full_path[::-1]) # Alt kategori gösterim biçimi Elektrnik -> Elektro Gitar gibi
+
 
     def image_tag(self):
         if self.image:
@@ -55,7 +61,7 @@ class Product(models.Model):
     price           = models.FloatField()
     amount          = models.IntegerField(default=0)
     detail          = models.TextField()
-    slug            = models.SlugField(blank=True,unique=True, max_length=150)
+    slug            = models.SlugField(blank=True, max_length=150)
     status          = models.CharField(max_length=10, choices=STATUS)
     create_at       = models.DateTimeField(auto_now_add=True)
     update_at       = models.DateTimeField(auto_now=True)

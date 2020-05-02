@@ -1,8 +1,8 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
-from product.models import Product
+from product.models import Product, Category
 from .models import Setting, Contact, ContactForm
 
 setting = Setting.objects.get(pk=1)
@@ -10,10 +10,12 @@ setting = Setting.objects.get(pk=1)
 def index(request):
     # metin = 'Ali'
     # return HttpResponse('Merhaba %s' % metin)
+    category = Category.objects.all()
     sliderdata=Product.objects.all()[:4]
     context = {'setting':setting,
                'page':'home',
-               'sliderdata':sliderdata
+               'sliderdata':sliderdata,
+               'category':category
                }
     return render(request, 'index.html', context)
 
@@ -45,3 +47,7 @@ def iletisim(request):
     return render(request,'iletisim.html',context)
 
 
+def category_products(request,id,slug) :
+    products = Product.objects.filter(category_id=id)
+
+    return HttpResponse(products)
