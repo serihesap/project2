@@ -92,5 +92,3 @@ class ContactForm(forms.ModelForm):
             'email'    : 'E-Posta',
             'message'  : 'Mesajınız'
         }
-
-

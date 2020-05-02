@@ -12,7 +12,7 @@ class Category(models.Model) :
     description = models.CharField(blank=True, max_length=255)
     image = models.ImageField(blank=True, upload_to='images/')
     status = models.CharField(max_length=10, choices=STATUS)
-    slug = models.SlugField(blank=True, max_length=150)
+    slug = models.SlugField(blank=True,unique=True, max_length=150)
     parent = models.ForeignKey('self', blank=True, null=True,
                                related_name='children', on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -55,7 +55,7 @@ class Product(models.Model):
     price           = models.FloatField()
     amount          = models.IntegerField(default=0)
     detail          = models.TextField()
-    slug            = models.SlugField(blank=True, max_length=150)
+    slug            = models.SlugField(blank=True,unique=True, max_length=150)
     status          = models.CharField(max_length=10, choices=STATUS)
     create_at       = models.DateTimeField(auto_now_add=True)
     update_at       = models.DateTimeField(auto_now=True)
