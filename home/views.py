@@ -48,6 +48,12 @@ def iletisim(request):
 
 
 def category_products(request,id,slug) :
+    category = Category.objects.all()
     products = Product.objects.filter(category_id=id)
-
-    return HttpResponse(products)
+    categorydata = Category.objects.get(pk=id) # yol için
+    context={
+        'products': products,
+        'category': category,
+        'categorydata' : categorydata
+    }
+    return render(request,'products.html',context)
