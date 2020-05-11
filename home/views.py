@@ -12,10 +12,16 @@ def index(request):
     # return HttpResponse('Merhaba %s' % metin)
     category = Category.objects.all()
     sliderdata=Product.objects.all()[:4]
+    dayproducts = Product.objects.all()[:3]
+    lastproducts = Product.objects.all().order_by('-id')[:4]
+    randomproducts = Product.objects.all().order_by('?')[:4]
     context = {'setting':setting,
                'page':'home',
                'sliderdata':sliderdata,
-               'category':category
+               'category':category,
+               'dayproducts':dayproducts,
+               'lastproducts':lastproducts,
+               'randomproducts':randomproducts
                }
     return render(request, 'index.html', context)
 
