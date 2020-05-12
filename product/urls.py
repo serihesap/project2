@@ -8,5 +8,6 @@ urlpatterns = [
     path('kategori/', views.kategoriler, name='kategori'),
     path('<int:category_id>/', views.detay, name='detay'),
     path('<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
-    path('<int:gelenid>/sablon/', views.sablon2, name='sablon')
+    path('<int:gelenid>/sablon/', views.sablon2, name='sablon'),
+    path('addcomment/<int:id>', views.addcomment, name='addcomment')
 ]

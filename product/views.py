@@ -1,8 +1,10 @@
-from django.http import HttpResponse, Http404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
 
 from home.models import Setting
-from product.models import Category, Product, Images
+from .models import Category, Product, Images, CommentForm, Comment
 
 
 def index(request):
@@ -54,4 +56,31 @@ def slayt(request, slug):
         'urun':urun
     }
     return render(request,'tekurun.html',context)
+
+@login_required(login_url='/login') # Şu anda tanımlı değil. Bu sayede oturum açmadan yorum yapılamyor
+def addcomment(request,id):
+
+    url = request.META.get('HTTP_REFERER')  # yorum sayfasına geri dönmek için son url'yi aldık.
+
+    if request.method == 'POST': # form post edildiyse
+        form = CommentForm(request.POST) # Modelde tanımlı olan form tanımına göre verileri çek.
+        if form.is_valid():
+            current_user    = request.user # Session'daki Kullanıcı bilgilerine erişim
+
+            data            = Comment() # model ile bağlantı kuruluyor
+            data.user_id    = current_user.id
+            data.product_id = id
+            data.subject    = form.cleaned_data['subject']
+            data.comment    = form.cleaned_data['comment']
+            data.rate       = form.cleaned_data['rate']
+            data.ip         = request.META.get('REMOTE_ADDR') # Client bilgisayarın IP'si
+            data.save() # Veritabanına kaydet
+
+            messages.success(request,'Yorumunuz başarı ile gönderilmiştir. Teşekkürler')
+
+            return HttpResponseRedirect(url)
+
+        messages.warning(request, 'Yorumunuz kaydedilemedi. lütfen  kontrol ediniz.')
+        return HttpResponseRedirect(url)
+
 
