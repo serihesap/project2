@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render
 
 from home.models import Setting
-from product.models import Category, Product
+from product.models import Category, Product, Images
 
 
 def index(request):
@@ -26,6 +26,24 @@ def detay(request, category_id):
         raise Http404('Bu kategori yok %s ' % category_id)
 
     return HttpResponse('Bu Kategorinin %s.' % category_id)
+
+def product_detail(request,id,slug):
+    # # import json
+    # # data_details = {'id' : id, 'slug' : slug}
+    # mesaj = "Ürün " , id , "/" , slug
+    # return HttpResponse(mesaj) #json.dumps(data_details))
+    # # Request olamadan kullanman gerekir. request ile kullaırsak, getir yapıyor.
+    category = Category.objects.all()
+    product = Product.objects.get(pk=id)
+    resimler = Images.objects.filter(product_id=id)
+    context = {
+        'category':category,
+        'product':product,
+        'resimler':resimler
+    }
+    return render(request,"product_detail.html",context)
+
+
 
 def sablon2(request, gelenid):
     return HttpResponse('Bu ŞABLON iki %s' % gelenid)
