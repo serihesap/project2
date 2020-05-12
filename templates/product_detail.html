@@ -130,24 +130,31 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="product-reviews">
+												{% for rs in comments %}
 												<div class="single-review">
 													<div class="review-heading">
-														<div><a href="#"><i class="fa fa-user-o"></i> John</a></div>
-														<div><a href="#"><i class="fa fa-clock-o"></i> 27 DEC 2017 / 8:0 PM</a></div>
+														<div><a href="#"><i class="fa fa-user-o"></i>
+															{% if rs.user.first_name %}
+																{{rs.user.first_name}}
+															{% else %}
+																{{rs.user}}
+															{% endif %}
+														</a></div>
+														<div><a href="#"><i class="fa fa-clock-o"></i> {{rs.create_at}}</a></div>
 														<div class="review-rating pull-right">
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star"></i>
-															<i class="fa fa-star-o empty"></i>
+															<i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+															<i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
 														</div>
 													</div>
 													<div class="review-body">
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute
-															irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+														<strong>{{ rs.subject }}</strong>
+														<p>{{ rs.comment|safe }}</p>
 													</div>
 												</div>
-
+												{% endfor %}
 												<ul class="reviews-pages">
 													<li class="active">1</li>
 													<li><a href="#">2</a></li>
@@ -189,7 +196,7 @@
 												{% if user.id is not None %}
 													<button class="primary-btn">Yorumu Gönder</button>
 												{% else %}
-													Yorum eklemek için Giriş yapınız
+													Yorum eklemek için <a href="/login">Giriş</a> yapınız
 												{% endif %}
 											</form>
 										</div>

@@ -109,7 +109,7 @@ class Comment(models.Model):
     product     = models.ForeignKey(Product,on_delete=models.CASCADE)
     user        = models.ForeignKey(User,on_delete=models.CASCADE)
     subject     = models.CharField(max_length=50, blank=True)
-    comment     = models.TextField(max_length=50, blank=True)
+    comment     = models.TextField(max_length=200, blank=True)
     rate        = models.IntegerField(blank=True)
     status      = models.CharField(max_length=10,choices=STATUS,default='New')
     ip          = models.CharField(max_length=20,blank=True)
