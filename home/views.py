@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 from product.models import Product, Category
+from .forms import SearchForm
 from .models import Setting, Contact, ContactForm
 
 setting = Setting.objects.get(pk=1)
@@ -63,3 +64,20 @@ def category_products(request,id,slug) :
         'categorydata' : categorydata
     }
     return render(request,'products.html',context)
+
+def products_search(request):
+    if request.method == 'POST': # Post edildi mi kontrol et.
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            category = Category.objects.all()
+            query    = form.cleaned_data['query'] # Formdaan bilgiyi al
+            products  = Product.objects.filter(title__contains=query) # Select * from product where title like %query%
+            context  = {
+                'category':category,
+                'query'   : query,
+                'products' : products
+            }
+
+            return render(request,'products_search.html',context)
+        return HttpResponseRedirect('/')
+
